@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:converters="clr-namespace:WeatherApp.ViewModels.Converters" 
+             xmlns:viewmodel="clr-namespace:WeatherApp.ViewModels"
+             xmlns:model="clr-namespace:WeatherApp.Models"
+             x:Class="WeatherApp.Views.SettingsPage"
+             BackgroundColor="WhiteSmoke"
+             Appearing="ContentPage_Appearing"
+             Disappearing="ContentPage_Disappearing"
+             x:DataType="viewmodel:SettingsPageVM"
+             NavigationPage.HasBackButton="True"
+             Title="Settings"
+             
+             >
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:IntEnumConverter x:Key="IntEnum"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <StackLayout>
+        <Grid BackgroundColor="#145987">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="100"/>
+            </Grid.ColumnDefinitions>
+
+            <Button Grid.Column="0" Grid.Row="0"
+                    Text="&lt; Back"
+                    TextColor="White"
+                    BackgroundColor="#145987"
+                    Clicked="Back_Clicked"/>
+            <Label Grid.Column="1" Grid.Row="0"
+                   Text="SETTINGS"
+                   TextColor="White"
+                   FontAttributes="Bold"
+                   FontSize="20"
+                   VerticalTextAlignment="Center"
+                   HorizontalOptions="Center"
+                   />
+        </Grid>
+        <TableView HasUnevenRows="True" Intent="Settings" Grid.Row="1">
+            <TableRoot>
+                <TableSection Title="General" TextColor="#2c3e50">
+                    <ViewCell>
+                        <ViewCell.View>
+                            <StackLayout Orientation="Horizontal" Padding="13, 0">
+                                <Label Text="Temperature Unit" VerticalOptions="Center" TextColor="Gray"/>
+                                <Picker ItemsSource="{Binding GetUnitNames, Mode=OneTime}"
+                                        SelectedIndex="{Binding FullWeatherCast.ui.unit,
+                                                                Converter={x:StaticResource IntEnum}}" 
+                                        WidthRequest="150"
+                                        HorizontalOptions="EndAndExpand"
+                                        HorizontalTextAlignment="Center"
+                                        TextColor="Black"/>
+                            </StackLayout>
+                        </ViewCell.View>
+                    </ViewCell>
+                    <ViewCell Height="50">
+                        <ViewCell.View>
+                            <StackLayout Orientation="Horizontal" Padding="13, 0">
+                                <Label Text="Hours" 
+                                       VerticalOptions="Center" 
+                                       TextColor="Gray"
+                                       HorizontalOptions="StartAndExpand"/>
+
+                                <Slider  x:Name="hoursStepper" Maximum="24" Minimum="6"
+                                         Value="{Binding FullWeatherCast.ui.hours}"
+                                         HorizontalOptions="End"
+                                         MaximumTrackColor="#145987"
+                                         MinimumTrackColor="#145987"
+                                         ThumbColor="#3195d4"
+                                         WidthRequest="142"/>
+
+                                <Label Text="{Binding StringFormat='{0:00}',
+                                                      Source={x:Reference hoursStepper},
+                                                      Path=Value}"
+                                       HorizontalOptions="End"
+                                       VerticalTextAlignment="Center"
+                                       TextColor="Black"/>
+                            </StackLayout>
+                        </ViewCell.View>
+                    </ViewCell>
+                </TableSection>
+            </TableRoot>
+        </TableView>
+    </StackLayout>
+    
+</ContentPage>

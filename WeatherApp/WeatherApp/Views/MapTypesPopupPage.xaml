@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pages:PopupPage xmlns:pages="http://rotorgames.com"
+                 xmlns="http://xamarin.com/schemas/2014/forms"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+                 xmlns:viewmodel="clr-namespace:WeatherApp.ViewModels" 
+                 xmlns:googlemaps="clr-namespace:Xamarin.Forms.GoogleMaps;assembly=Xamarin.Forms.GoogleMaps"
+                 x:Class="WeatherApp.Views.MapTypesPopupPage"
+                 >
+    <Frame BackgroundColor="White" CornerRadius="20"
+           VerticalOptions="Center" HorizontalOptions="Center"
+           WidthRequest="300"
+           HeightRequest="260"
+           Padding="0,10,0,20">
+        <StackLayout x:DataType="viewmodel:MapPageVM">
+            <Button Text="Street"   
+                    BackgroundColor="White" 
+                    TextColor="Black"
+                    Command="{Binding ChangeMapTypeCommand}"
+                    >
+                <Button.CommandParameter>
+                    <googlemaps:MapType>Street</googlemaps:MapType>
+                </Button.CommandParameter>
+            </Button>
+            <Button Text="Satellite" 
+                    BackgroundColor="White" 
+                    TextColor="Black"
+                    Command="{Binding ChangeMapTypeCommand}"
+                    >
+                <Button.CommandParameter>
+                    <googlemaps:MapType>Satellite</googlemaps:MapType>
+                </Button.CommandParameter>
+            </Button>
+            <Button Text="Hybrid"   
+                    BackgroundColor="White" 
+                    TextColor="Black"
+                    Command="{Binding ChangeMapTypeCommand}"
+                    >
+                <Button.CommandParameter>
+                    <googlemaps:MapType>Hybrid</googlemaps:MapType>
+                </Button.CommandParameter>
+            </Button>
+            <Button Text="Terrain"
+                    BackgroundColor="White" 
+                    TextColor="Black"
+                    Command="{Binding ChangeMapTypeCommand}"
+                    >
+                <Button.CommandParameter>
+                    <googlemaps:MapType>Terrain</googlemaps:MapType>
+                </Button.CommandParameter>
+            </Button>
+            <Button Text="Cancel"   
+                    BackgroundColor="White" 
+                    TextColor="DodgerBlue" 
+                    Margin="0,5,0,0"
+                    Clicked="Button_Clicked"
+                    />
+        </StackLayout>
+    </Frame>
+    
+</pages:PopupPage>

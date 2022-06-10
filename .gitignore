@@ -1,0 +1,10 @@
+*.editorconfig
+UpgradeLog.html
+Weather App.sln
+bin/
+obj/
+Constants.cs
+*.csproj
+*.csproj.user
+AndroidManifest.xml
+*.vs

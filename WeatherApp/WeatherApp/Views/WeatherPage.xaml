@@ -1,0 +1,486 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:viewmodel="clr-namespace:WeatherApp.ViewModels" 
+             xmlns:model="clr-namespace:WeatherApp.Models" 
+             xmlns:converters="clr-namespace:WeatherApp.ViewModels.Converters"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             x:Class="WeatherApp.Views.WeatherPage"
+             BackgroundColor="WhiteSmoke"
+             NavigationPage.HasNavigationBar="False"
+             >
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:HourlyPointsConverter x:Key="HourlyPoints"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        
+        <RefreshView x:Name="refreshView" 
+                     RefreshColor="Black" 
+                     Refreshing="RefreshView_Refreshing">
+            <ScrollView>
+                <Grid x:Name="MainGrid" 
+                      x:DataType="viewmodel:WeatherPageVM">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="300"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="200"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="520"/>
+                        <RowDefinition Height="40"/>
+                    </Grid.RowDefinitions>
+                    <Image Source="overlay.png" 
+                           Aspect="AspectFill" 
+                           HeightRequest="300"
+                           />
+                    <Label Text="{Binding FullWeatherCast.ui.location.Name}"
+                               FontSize="16"
+                               HorizontalTextAlignment="Start"
+                               TextColor="White"
+                               Margin="20,50"
+                               />
+                    <StackLayout Margin="0,20" 
+                                 HorizontalOptions="Center" 
+                                 VerticalOptions="Center">
+                        <StackLayout Orientation="Horizontal" 
+                                     HorizontalOptions="Center" 
+                                     CompressedLayout.IsHeadless="True">
+                            <Image Source="temp.png" 
+                                   WidthRequest="50" HeightRequest="50" 
+                                   VerticalOptions="Center"
+                                   />
+                            <Label Text="{Binding FullWeatherCast.apiRoot.current.temp ,
+                                                  StringFormat='{0:N0}'}" 
+                                   TextColor="White" 
+                                   FontSize="70" 
+                                   FontAttributes="Bold"
+                                   VerticalOptions="Center"
+                                   />
+                            <Label x:Name="lblTempUnit" 
+                                   Text="{Binding FullWeatherCast.ui.unitSymbol}" 
+                                   TextColor="White" 
+                                   FontSize="34" 
+                                   VerticalOptions="Center"
+                                   />
+                            <Image Source="{Binding FullWeatherCast.ui.icon}"
+                                   Aspect="AspectFill" 
+                                   HeightRequest="70" 
+                                   WidthRequest="70" 
+                                   HorizontalOptions="StartAndExpand"
+                                   />
+                        </StackLayout>
+                        <Label Text="{Binding FullWeatherCast.ui.date}" 
+                               TextColor="White" 
+                               FontSize="12" 
+                               HorizontalOptions="Center"
+                               HorizontalTextAlignment="Center"
+                               />
+                    </StackLayout>
+                    <Frame Grid.Row="1" 
+                           HasShadow="True"
+                           CornerRadius="10" 
+                           Margin="20,-40,20,0" 
+                           Padding="0" 
+                           HeightRequest="120" 
+                           VerticalOptions="Start">
+                        <Grid VerticalOptions="CenterAndExpand">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                        <StackLayout Orientation="Vertical" 
+                                     Spacing="10" 
+                                     HorizontalOptions="CenterAndExpand"
+                                     CompressedLayout.IsHeadless="True">
+                                <Image Source="humi.png" 
+                                       HeightRequest="25" 
+                                       HorizontalOptions="Center"
+                                       />
+                                <StackLayout Spacing="7" 
+                                             HorizontalOptions="CenterAndExpand"
+                                             CompressedLayout.IsHeadless="True">
+                                    <Label Text="{Binding FullWeatherCast.apiRoot.daily[0].humidity,
+                                                          StringFormat='{0}%'}" 
+                                           TextColor="Black" 
+                                           FontSize="14" 
+                                           FontAttributes="Bold" 
+                                           HorizontalOptions="Center"
+                                           />
+                                    <Label Text="Humidity" 
+                                           TextColor="#7D7D7D" 
+                                           FontSize="11" 
+                                           HorizontalOptions="Center"
+                                           />
+                                </StackLayout>
+                            </StackLayout>
+                            <StackLayout Grid.Column="1" 
+                                         Orientation="Vertical" 
+                                         Spacing="10" 
+                                         HorizontalOptions="CenterAndExpand"
+                                         CompressedLayout.IsHeadless="True">
+                                <Image Source="wind.png" 
+                                       HeightRequest="25" 
+                                       HorizontalOptions="Center"
+                                       />
+                                <StackLayout Spacing="7" 
+                                             HorizontalOptions="CenterAndExpand"
+                                             CompressedLayout.IsHeadless="True">
+                                    <Label TextColor="Black" 
+                                           FontSize="14" FontAttributes="Bold"
+                                           HorizontalOptions="Center"
+                                           >
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <FormattedString.Spans>
+                                                    <Span Text="{Binding FullWeatherCast.apiRoot.current.wind_speed, StringFormat='{0:N2}'}"/>
+                                                    <Span Text="{Binding FullWeatherCast.ui.speedUnit}"/>
+                                                </FormattedString.Spans>
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                    <Label Text="Wind" 
+                                           TextColor="#7D7D7D" 
+                                           FontSize="11" 
+                                           HorizontalOptions="Center"
+                                           />
+                                </StackLayout>
+                            </StackLayout>
+                            <StackLayout Grid.Column="2" 
+                                         Orientation="Vertical" 
+                                         Spacing="10" 
+                                         HorizontalOptions="CenterAndExpand"
+                                         CompressedLayout.IsHeadless="True">
+                                <Image Source="pressure.png" 
+                                       HeightRequest="25" 
+                                       HorizontalOptions="Center"
+                                       />
+                                <StackLayout Spacing="7" 
+                                             HorizontalOptions="CenterAndExpand"
+                                             CompressedLayout.IsHeadless="True">
+                                    <Label Text="{Binding FullWeatherCast.apiRoot.current.pressure,
+                                                          StringFormat='{0} hpa'}" 
+                                           TextColor="Black" FontSize="14" 
+                                           FontAttributes="Bold" HorizontalOptions="Center"
+                                           />
+                                    <Label Text="Pressure" 
+                                           TextColor="#7D7D7D" 
+                                           FontSize="11" 
+                                           HorizontalOptions="Center"
+                                           />
+                                </StackLayout>
+                            </StackLayout>
+                            <StackLayout Grid.Column="3" 
+                                         Orientation="Vertical" 
+                                         Spacing="10" 
+                                         HorizontalOptions="CenterAndExpand"
+                                         CompressedLayout.IsHeadless="True">
+                                <Image Source="cloudy.png" 
+                                       HeightRequest="25" 
+                                       HorizontalOptions="Center"
+                                       />
+                                <StackLayout Spacing="7" 
+                                             HorizontalOptions="CenterAndExpand"
+                                             CompressedLayout.IsHeadless="True">
+                                    <Label Text="{Binding FullWeatherCast.apiRoot.current.clouds,
+                                                          StringFormat='{0}%'}" 
+                                           TextColor="Black" 
+                                           FontSize="14" 
+                                           FontAttributes="Bold" 
+                                           HorizontalOptions="Center"
+                                           />
+                                    <Label Text="Cloudiness" 
+                                           TextColor="#7D7D7D"
+                                           FontSize="11"
+                                           HorizontalOptions="Center"
+                                           />
+                                </StackLayout>
+                            </StackLayout>
+                        </Grid>
+                    </Frame>
+                    <StackLayout Grid.Row="3" 
+                                 BackgroundColor="Transparent" 
+                                 Orientation="Horizontal"
+                                 Margin="20" 
+                                 HorizontalOptions="End"
+                                 CompressedLayout.IsHeadless="True">
+                        <ImageButton x:Name="Countrybtn" 
+                                     Source="world.png" 
+                                     WidthRequest="35" 
+                                     HeightRequest="35" 
+                                     Clicked="Countrybtn_Clicked" 
+                                     BackgroundColor="Transparent"
+                                     />
+                        <ImageButton x:Name="Settingbtn" 
+                                     Source="settings.png" 
+                                     WidthRequest="35"
+                                     HeightRequest="35" 
+                                     Clicked="Settings_Clicked" 
+                                     BackgroundColor="Transparent"
+                                     />
+                    </StackLayout>
+
+                    <!--Hourly List-->
+                    <Frame Grid.Row="2" 
+                           HasShadow="True"
+                           CornerRadius="10" 
+                           Margin="20,0"
+                           IsClippedToBounds="True"
+                           Padding="0"
+                           >
+                        <ScrollView Orientation="Horizontal" 
+                                    HorizontalScrollBarVisibility="Never"
+                                    VerticalScrollBarVisibility="Never"
+                                    x:Name="HourlyScrollView"
+                                    >
+                            <AbsoluteLayout x:Name="HourlyAbsoluteLayout"
+                                            HorizontalOptions="Start"
+                                            CompressedLayout.IsHeadless="True"
+                                            >
+                                <Polyline x:Name="HourlyGraph"
+                                          Points="{Binding FullWeatherCast.ui.points}"
+                                          Stroke="Black"
+                                          StrokeThickness="1"
+                                          StrokeLineCap="Round"
+                                          StrokeLineJoin="Round"
+                                          />
+                                <StackLayout x:Name="HourlyStacklayout"
+                                             Orientation="Horizontal" 
+                                             BindableLayout.ItemsSource="{Binding FullWeatherCast.ui.hourly}"
+                                             Spacing="20"
+                                             Padding="10,10,10,15"
+                                             HorizontalOptions="Start"
+                                             CompressedLayout.IsHeadless="True"
+                                             >
+                                    <BindableLayout.ItemTemplate>
+                                        <DataTemplate x:DataType="model:Hourly">
+                                            <Grid x:Name="HourlyGrid">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto"/>
+                                                    <RowDefinition Height="40"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                    <RowDefinition Height="*"/>
+                                                </Grid.RowDefinitions>
+                                                <Ellipse x:Name="Ellipse"
+                                                         TranslationY="{Binding dt, Converter={x:StaticResource HourlyPoints}}"
+                                                         Grid.RowSpan="4"
+                                                         Fill="Black"
+                                                         WidthRequest="8"
+                                                         HeightRequest="8"
+                                                         VerticalOptions="Start"
+                                                         HorizontalOptions="Center"
+                                                         />
+                                                <Label Grid.Row="0"
+                                                       Text="{Binding time}"
+                                                       HorizontalOptions="Center"
+                                                       TextColor="Black"
+                                                       FontSize="Micro"
+                                                       />
+                                                <Image x:Name="WeatherIcon"
+                                                       Grid.Row="1"
+                                                       Source="{Binding weather[0].icon,
+                                                                        StringFormat='weatherIcon_{0}.png'}"
+                                                       HorizontalOptions="Center"
+                                                       VerticalOptions="Start"
+                                                       HeightRequest="40"
+                                                       WidthRequest="44"
+                                                       />
+                                                <Label Grid.Row="2"
+                                                       TextColor="Black"
+                                                       FontSize="Micro"
+                                                       HorizontalTextAlignment="Center"
+                                                       Text="{Binding temp,
+                                                                      StringFormat='{0:N0}°'}">
+                                                </Label>
+
+                                                <Grid Grid.Row="3"
+                                                      ColumnSpacing="3"
+                                                      HorizontalOptions="Center">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="8"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Image Source="humi.png"
+                                                           Grid.Row="3"
+                                                           Grid.Column="0"
+                                                           />
+                                                    <Label Grid.Row="3"
+                                                           Text="{Binding popChance,
+                                                                          StringFormat='{0:N0}%'}"
+                                                           TextColor="Black"
+                                                           FontSize="Caption"
+                                                           HorizontalTextAlignment="Start"
+                                                           HorizontalOptions="Start"
+                                                           Grid.Column="1"
+                                                           />
+                                                </Grid>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </BindableLayout.ItemTemplate>
+                                </StackLayout>
+                            </AbsoluteLayout>
+                        </ScrollView>
+                    </Frame>
+
+                    <!--Daily List-->
+                    <CollectionView ItemsSource="{Binding FullWeatherCast.apiRoot.daily}"
+                                    Grid.Row="4" 
+                                    Margin="20,0"
+                                    SelectionMode="None"
+                                    >
+                        <CollectionView.ItemsLayout>
+                            <LinearItemsLayout Orientation="Vertical" ItemSpacing="10"/>
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="model:Daily">
+                                <Frame HasShadow="True"
+                                       BorderColor="LightGray" 
+                                       Padding="0,1,1,1"
+                                       IsClippedToBounds="True"
+                                       VerticalOptions="StartAndExpand"
+                                       >
+                                    <Grid>
+                                        <BoxView HorizontalOptions="Start"
+                                                 WidthRequest="3"
+                                                 BackgroundColor="#145987"
+                                                 />
+                                        <xct:Expander CollapseAnimationLength="300">
+                                            <xct:Expander.Header>
+                                                <Grid BackgroundColor="White" 
+                                                      Padding="0,5,5,5">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="0.4*"/>
+                                                        <ColumnDefinition Width="38"/>
+                                                        <ColumnDefinition Width="0.6*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Label Grid.Column="0"
+                                                           Padding="10,0,0,0"
+                                                           Text="{Binding dayName}"
+                                                           TextColor="Black" 
+                                                           FontSize="12" 
+                                                           VerticalOptions="Center" 
+                                                           FontAttributes="Bold"
+                                                           />
+                                                    <Image Grid.Column="1"
+                                                       Source="{Binding weather[0].icon, 
+                                                                        StringFormat='weatherIcon_{0}.png'}"
+                                                       WidthRequest="38" 
+                                                       HeightRequest="38" 
+                                                       HorizontalOptions="Center" 
+                                                       VerticalOptions="Center"
+                                                       />
+                                                    <Label Grid.Column="2"
+                                                       TextColor="Black" 
+                                                       FontSize="30" 
+                                                       FontAttributes="Bold" 
+                                                       VerticalOptions="Center" 
+                                                       HorizontalOptions="End"
+                                                       VerticalTextAlignment="Center"
+                                                       Margin="20,0">
+                                                        <Label.FormattedText>
+                                                            <FormattedString>
+                                                                <Span Text="{Binding temp.min, StringFormat='{0:N0}'}"/>
+                                                                <Span Text="{Binding temp.max, StringFormat='/{0:N0}'}"/>
+                                                                <Span Text="{Binding Source={x:Reference lblTempUnit},
+                                                                                 Path=Text, 
+                                                                                 StringFormat='  {0}'}" 
+                                                                  TextColor="Black" 
+                                                                  FontSize="15"
+                                                                  />
+                                                            </FormattedString>
+                                                        </Label.FormattedText>
+                                                    </Label>
+                                                </Grid>
+                                            </xct:Expander.Header>
+
+                                            <Grid Margin="10,20,0,0" Padding="0,0,0,10">
+                                                <Grid.RowDefinitions>
+                                                </Grid.RowDefinitions>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="0.25*"/>
+                                                    <ColumnDefinition Width="0.35*"/>
+                                                    <ColumnDefinition Width="0.4*"/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <StackLayout Grid.Column="0">
+                                                    <Label Text="Temperature" 
+                                                           TextColor="Black" 
+                                                           FontAttributes="Bold"
+                                                           FontSize="12"
+                                                           />
+                                                    <Label Margin="10,0,0,0"
+                                                           TextColor="#145987"
+                                                           FontSize="11"
+                                                           FontAttributes="Bold"
+                                                           Text="{Binding temperatureStatus}"
+                                                           />
+
+                                                    <Label Text="Feels Like" 
+                                                           TextColor="Black" 
+                                                           FontAttributes="Bold"
+                                                           FontSize="12"
+                                                           />
+                                                    <Label Margin="10,0,0,0"
+                                                           TextColor="#145987"
+                                                           FontSize="11"
+                                                           FontAttributes="Bold"
+                                                           Text="{Binding feelsLikeStatus}"
+                                                           />
+                                                </StackLayout>
+                                                <StackLayout Grid.Column="1"
+                                                             CompressedLayout.IsHeadless="True">
+                                                    <Label Text="Date - Time" 
+                                                           TextColor="Black" 
+                                                           FontAttributes="Bold"
+                                                           FontSize="12"
+                                                           />
+                                                    <Label Margin="10,0,0,0"
+                                                           TextColor="#145987"
+                                                           FontSize="11"
+                                                           FontAttributes="Bold"
+                                                           Text="{Binding dateTimeStatus}"/>
+                                                </StackLayout>
+
+                                                <StackLayout Grid.Column="2" Padding="0,0,8,0">
+                                                    <Label Text="Weather Status" 
+                                                           TextColor="Black" 
+                                                           FontAttributes="Bold"
+                                                           FontSize="12"
+                                                           />
+                                                    <Label Margin="10,0,0,0"
+                                                           TextColor="#145987"
+                                                           FontSize="11"
+                                                           FontAttributes="Bold"
+                                                           Text="{Binding weatherStatus}"
+                                                           />
+                                                </StackLayout>
+                                            </Grid>
+                                        </xct:Expander>
+                                        <BoxView HorizontalOptions="Start"
+                                                 WidthRequest="3"
+                                                 BackgroundColor="#145987"
+                                                 />
+                                    </Grid>
+                                </Frame>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+
+                    <ImageButton Grid.Row="5"
+                                 Margin="20,0,0,10"
+                                 Source="openweathermap.png" 
+                                 WidthRequest="70"
+                                 HorizontalOptions="Start"
+                                 Clicked="OpenweathrmapButton_Clicked"
+                                 BackgroundColor="WhiteSmoke"
+                                 />
+                </Grid>
+            </ScrollView>
+        </RefreshView>
+    </ContentPage.Content>
+</ContentPage>

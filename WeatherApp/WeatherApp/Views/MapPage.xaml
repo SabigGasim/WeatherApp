@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:maps="clr-namespace:Xamarin.Forms.GoogleMaps;assembly=Xamarin.Forms.GoogleMaps" 
+             xmlns:converters="clr-namespace:WeatherApp.ViewModels.Converters" 
+             xmlns:viewmodel="clr-namespace:WeatherApp.ViewModels"
+             x:Class="WeatherApp.Views.MapPage"
+             NavigationPage.HasNavigationBar="false"
+             Appearing="ContentPage_Appearing"
+             x:DataType="viewmodel:MapPageVM"
+             >
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:PinBoolConverter x:Key="PinBool"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <Grid>
+            <maps:Map x:Name="map"
+                      MyLocationEnabled="True"
+                      VerticalOptions="FillAndExpand"
+                      HorizontalOptions="FillAndExpand"
+                      MapType="{Binding MapType}"
+                      MapClicked="Map_MapClicked"
+                      MyLocationButtonClicked="Map_MyLocationButtonClicked"
+                      >
+            </maps:Map>
+
+            <Frame Padding="0"
+                   WidthRequest="34"
+                   HeightRequest="34"
+                   CornerRadius="17"
+                   HasShadow="True"
+                   Margin="13,60"
+                   VerticalOptions="Start"
+                   HorizontalOptions="Start">
+                <ImageButton x:Name="MapTypeButton"
+                             Source="layers.png"
+                             Padding="7"
+                             Clicked="MapTypeButton_Clicked"
+                             IsVisible="True"
+                             BackgroundColor="White"
+                             >
+                </ImageButton>
+            </Frame>
+            <Button Text="Select New Place"
+                    Margin="70,40"
+                    Clicked="SelectPlace_Clicked"
+                    IsVisible="{Binding Source={x:Reference map},
+                                        Path=SelectedPin,
+                                        Converter={x:StaticResource PinBool}}"
+                    x:Name="SelectPlace"
+                    BackgroundColor="Red"
+                    TextColor="White"
+                    FontSize="17"
+                    FontAttributes="Bold"
+                    VerticalOptions="EndAndExpand"
+                    HorizontalOptions="FillAndExpand"
+                    CornerRadius="35"
+                    />
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>
