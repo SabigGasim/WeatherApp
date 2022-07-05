@@ -21,7 +21,8 @@
                      Refreshing="RefreshView_Refreshing">
             <ScrollView>
                 <Grid x:Name="MainGrid" 
-                      x:DataType="viewmodel:WeatherPageVM">
+                      x:DataType="viewmodel:WeatherPageVM"
+                      >
                     <Grid.RowDefinitions>
                         <RowDefinition Height="300"/>
                         <RowDefinition Height="Auto"/>
@@ -45,7 +46,7 @@
                                  VerticalOptions="Center">
                         <StackLayout Orientation="Horizontal" 
                                      HorizontalOptions="Center" 
-                                     CompressedLayout.IsHeadless="True">
+                                     >
                             <Image Source="temp.png" 
                                    WidthRequest="50" HeightRequest="50" 
                                    VerticalOptions="Center"
@@ -84,7 +85,7 @@
                            Padding="0" 
                            HeightRequest="120" 
                            VerticalOptions="Start">
-                        <Grid VerticalOptions="CenterAndExpand">
+                        <Grid VerticalOptions="CenterAndExpand" >
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
@@ -97,14 +98,14 @@
                         <StackLayout Orientation="Vertical" 
                                      Spacing="10" 
                                      HorizontalOptions="CenterAndExpand"
-                                     CompressedLayout.IsHeadless="True">
+                                     >
                                 <Image Source="humi.png" 
                                        HeightRequest="25" 
                                        HorizontalOptions="Center"
                                        />
                                 <StackLayout Spacing="7" 
                                              HorizontalOptions="CenterAndExpand"
-                                             CompressedLayout.IsHeadless="True">
+                                             >
                                     <Label Text="{Binding FullWeatherCast.apiRoot.daily[0].humidity,
                                                           StringFormat='{0}%'}" 
                                            TextColor="Black" 
@@ -123,14 +124,14 @@
                                          Orientation="Vertical" 
                                          Spacing="10" 
                                          HorizontalOptions="CenterAndExpand"
-                                         CompressedLayout.IsHeadless="True">
+                                         >
                                 <Image Source="wind.png" 
                                        HeightRequest="25" 
                                        HorizontalOptions="Center"
                                        />
                                 <StackLayout Spacing="7" 
                                              HorizontalOptions="CenterAndExpand"
-                                             CompressedLayout.IsHeadless="True">
+                                             >
                                     <Label TextColor="Black" 
                                            FontSize="14" FontAttributes="Bold"
                                            HorizontalOptions="Center"
@@ -155,14 +156,14 @@
                                          Orientation="Vertical" 
                                          Spacing="10" 
                                          HorizontalOptions="CenterAndExpand"
-                                         CompressedLayout.IsHeadless="True">
+                                         >
                                 <Image Source="pressure.png" 
                                        HeightRequest="25" 
                                        HorizontalOptions="Center"
                                        />
                                 <StackLayout Spacing="7" 
                                              HorizontalOptions="CenterAndExpand"
-                                             CompressedLayout.IsHeadless="True">
+                                             >
                                     <Label Text="{Binding FullWeatherCast.apiRoot.current.pressure,
                                                           StringFormat='{0} hpa'}" 
                                            TextColor="Black" FontSize="14" 
@@ -179,14 +180,14 @@
                                          Orientation="Vertical" 
                                          Spacing="10" 
                                          HorizontalOptions="CenterAndExpand"
-                                         CompressedLayout.IsHeadless="True">
+                                         >
                                 <Image Source="cloudy.png" 
                                        HeightRequest="25" 
                                        HorizontalOptions="Center"
                                        />
                                 <StackLayout Spacing="7" 
                                              HorizontalOptions="CenterAndExpand"
-                                             CompressedLayout.IsHeadless="True">
+                                             >
                                     <Label Text="{Binding FullWeatherCast.apiRoot.current.clouds,
                                                           StringFormat='{0}%'}" 
                                            TextColor="Black" 
@@ -207,8 +208,7 @@
                                  BackgroundColor="Transparent" 
                                  Orientation="Horizontal"
                                  Margin="20" 
-                                 HorizontalOptions="End"
-                                 CompressedLayout.IsHeadless="True">
+                                 HorizontalOptions="End">
                         <ImageButton x:Name="Countrybtn" 
                                      Source="world.png" 
                                      WidthRequest="35" 
@@ -238,9 +238,8 @@
                                     VerticalScrollBarVisibility="Never"
                                     x:Name="HourlyScrollView"
                                     >
-                            <AbsoluteLayout x:Name="HourlyAbsoluteLayout"
+                            <Grid x:Name="HourlyAbsoluteLayout"
                                             HorizontalOptions="Start"
-                                            CompressedLayout.IsHeadless="True"
                                             >
                                 <Polyline x:Name="HourlyGraph"
                                           Points="{Binding FullWeatherCast.ui.points}"
@@ -255,11 +254,10 @@
                                              Spacing="20"
                                              Padding="10,10,10,15"
                                              HorizontalOptions="Start"
-                                             CompressedLayout.IsHeadless="True"
                                              >
                                     <BindableLayout.ItemTemplate>
                                         <DataTemplate x:DataType="model:Hourly">
-                                            <Grid x:Name="HourlyGrid">
+                                            <Grid x:Name="HourlyGrid" >
                                                 <Grid.RowDefinitions>
                                                     <RowDefinition Height="Auto"/>
                                                     <RowDefinition Height="40"/>
@@ -323,7 +321,7 @@
                                         </DataTemplate>
                                     </BindableLayout.ItemTemplate>
                                 </StackLayout>
-                            </AbsoluteLayout>
+                            </Grid>
                         </ScrollView>
                     </Frame>
 
@@ -339,20 +337,17 @@
                         <CollectionView.ItemTemplate>
                             <DataTemplate x:DataType="model:Daily">
                                 <Frame HasShadow="True"
-                                       BorderColor="LightGray" 
-                                       Padding="0,1,1,1"
+                                       BorderColor="LightGray"
+                                       Padding="1"
                                        IsClippedToBounds="True"
+                                       CornerRadius="5"
                                        VerticalOptions="StartAndExpand"
                                        >
                                     <Grid>
-                                        <BoxView HorizontalOptions="Start"
-                                                 WidthRequest="3"
-                                                 BackgroundColor="#145987"
-                                                 />
                                         <xct:Expander CollapseAnimationLength="300">
                                             <xct:Expander.Header>
                                                 <Grid BackgroundColor="White" 
-                                                      Padding="0,5,5,5">
+                                                      Padding="5">
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition Width="0.4*"/>
                                                         <ColumnDefinition Width="38"/>
@@ -403,68 +398,96 @@
                                                 </Grid.RowDefinitions>
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="0.25*"/>
-                                                    <ColumnDefinition Width="0.35*"/>
                                                     <ColumnDefinition Width="0.4*"/>
+                                                    <ColumnDefinition Width="0.35*"/>
                                                 </Grid.ColumnDefinitions>
 
-                                                <StackLayout Grid.Column="0">
-                                                    <Label Text="Temperature" 
-                                                           TextColor="Black" 
-                                                           FontAttributes="Bold"
-                                                           FontSize="12"
-                                                           />
-                                                    <Label Margin="10,0,0,0"
-                                                           TextColor="#145987"
-                                                           FontSize="11"
-                                                           FontAttributes="Bold"
-                                                           Text="{Binding temperatureStatus}"
-                                                           />
-
-                                                    <Label Text="Feels Like" 
-                                                           TextColor="Black" 
-                                                           FontAttributes="Bold"
-                                                           FontSize="12"
-                                                           />
-                                                    <Label Margin="10,0,0,0"
-                                                           TextColor="#145987"
-                                                           FontSize="11"
-                                                           FontAttributes="Bold"
-                                                           Text="{Binding feelsLikeStatus}"
-                                                           />
+                                                <StackLayout Grid.Column="0" >
+                                                    <Label>
+                                                        <Label.FormattedText>
+                                                            <FormattedString>
+                                                                <FormattedString.Spans>
+                                                                    <Span Text="Temperature" 
+                                                                          TextColor="Black" 
+                                                                          FontAttributes="Bold"
+                                                                          FontSize="12"
+                                                                          />
+                                                                    <Span Text="&#x0a;&#x0a;" FontSize="5"/>
+                                                                    <Span TextColor="#145987"
+                                                                          FontSize="11"
+                                                                          FontAttributes="Bold"
+                                                                          Text="{Binding temperatureStatus}"
+                                                                          />
+                                                                </FormattedString.Spans>
+                                                            </FormattedString>
+                                                        </Label.FormattedText>
+                                                    </Label>
+                                                    <Label>
+                                                        <Label.FormattedText>
+                                                            <FormattedString>
+                                                                <FormattedString.Spans>
+                                                                    <Span Text="Feels Like" 
+                                                                          TextColor="Black" 
+                                                                          FontAttributes="Bold"
+                                                                          FontSize="12"
+                                                                          />
+                                                                    <Span Text="&#x0a;&#x0a;" FontSize="5"/>
+                                                                    <Span TextColor="#145987"
+                                                                          FontSize="11"
+                                                                          FontAttributes="Bold"
+                                                                          Text="{Binding feelsLikeStatus}"
+                                                                          />
+                                                                </FormattedString.Spans>
+                                                            </FormattedString>
+                                                        </Label.FormattedText>
+                                                    </Label>
                                                 </StackLayout>
                                                 <StackLayout Grid.Column="1"
-                                                             CompressedLayout.IsHeadless="True">
-                                                    <Label Text="Date - Time" 
-                                                           TextColor="Black" 
-                                                           FontAttributes="Bold"
-                                                           FontSize="12"
-                                                           />
-                                                    <Label Margin="10,0,0,0"
-                                                           TextColor="#145987"
-                                                           FontSize="11"
-                                                           FontAttributes="Bold"
-                                                           Text="{Binding dateTimeStatus}"/>
+                                                             >
+                                                    <Label>
+                                                        <Label.FormattedText>
+                                                            <FormattedString>
+                                                                <FormattedString.Spans>
+                                                                    <Span Text="Date - Time" 
+                                                                          TextColor="Black" 
+                                                                          FontAttributes="Bold"
+                                                                          FontSize="12"
+                                                                          />
+                                                                    <Span Text="&#x0a;&#x0a;" FontSize="5"/>
+                                                                    <Span TextColor="#145987"
+                                                                          FontSize="11"
+                                                                          FontAttributes="Bold"
+                                                                          Text="{Binding dateTimeStatus}"
+                                                                          />
+                                                                </FormattedString.Spans>
+                                                            </FormattedString>
+                                                        </Label.FormattedText>
+                                                    </Label>
                                                 </StackLayout>
 
                                                 <StackLayout Grid.Column="2" Padding="0,0,8,0">
-                                                    <Label Text="Weather Status" 
-                                                           TextColor="Black" 
-                                                           FontAttributes="Bold"
-                                                           FontSize="12"
-                                                           />
-                                                    <Label Margin="10,0,0,0"
-                                                           TextColor="#145987"
-                                                           FontSize="11"
-                                                           FontAttributes="Bold"
-                                                           Text="{Binding weatherStatus}"
-                                                           />
+                                                    <Label>
+                                                        <Label.FormattedText>
+                                                            <FormattedString>
+                                                                <FormattedString.Spans>
+                                                                    <Span Text="Weather Status" 
+                                                                          TextColor="Black" 
+                                                                          FontAttributes="Bold"
+                                                                          FontSize="12"
+                                                                          />
+                                                                    <Span Text="&#x0a;&#x0a;" FontSize="5"/>
+                                                                    <Span TextColor="#145987"
+                                                                          FontSize="11"
+                                                                          FontAttributes="Bold"
+                                                                          Text="{Binding weatherStatus}"
+                                                                          />
+                                                                </FormattedString.Spans>
+                                                            </FormattedString>
+                                                        </Label.FormattedText>
+                                                    </Label>
                                                 </StackLayout>
                                             </Grid>
                                         </xct:Expander>
-                                        <BoxView HorizontalOptions="Start"
-                                                 WidthRequest="3"
-                                                 BackgroundColor="#145987"
-                                                 />
                                     </Grid>
                                 </Frame>
                             </DataTemplate>
