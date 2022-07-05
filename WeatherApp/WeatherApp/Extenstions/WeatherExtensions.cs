@@ -8,7 +8,7 @@ public static class WeatherExtensions
 {
     public static string GetWeatherStatus(this Daily source)
     {
-        var unit = DependencyService.Get<WeatherPageVM>().FullWeatherCast.ui.unit == Unit.Celsius
+        var unit = Global.weatherPageVM.FullWeatherCast.ui.unit == Unit.Celsius
                 ? " m/s"
                 : "/mph";
         var direction = source.wind_deg.GetDirection();
