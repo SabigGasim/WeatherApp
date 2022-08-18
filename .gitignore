@@ -3,7 +3,7 @@ UpgradeLog.html
 Weather App.sln
 bin/
 obj/
-Constants.cs
+Secrets/
 *.csproj
 *.csproj.user
 AndroidManifest.xml
